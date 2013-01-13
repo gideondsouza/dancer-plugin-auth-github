@@ -13,17 +13,17 @@ use LWP::UserAgent;
 use JSON qw(decode_json);
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 my $client_id;
 my $client_secret;
 my $scope = "";
 my $github_redirect_url = 'https://github.com/login/oauth/authorize/';
 my $github_post_url = 'https://github.com/login/oauth/access_token/';
-my $state = "";#state to prevent CSRF attacks.
 my $github_auth_failed = '/auth/github/failed';
 my $github_auth_success = '/';
-	
+my $state_salt = "RandomSalt";
+
 #A method to initializa everything
 register 'auth_github_init' => sub {
 	my $config = plugin_setting;
@@ -48,17 +48,18 @@ register 'auth_github_init' => sub {
 	{
 		$github_auth_success = $config->{github_auth_success};
 	}
-	$state = sha256_hex($client_id.$client_secret."SomeRandomSalt".rand(100));
 	debug 'Loaded config..';
 };
 #returns the url you need to redirect to to authenticate on github
 register 'auth_github_authenticate_url'  => sub {
+	my $generate_state = sha256_hex($client_id.$client_secret.$state_salt);
 	return "$github_redirect_url?&client_id=$client_id&scope=$scope&state=$state";
 };
 #registers this as a callback url
 get '/auth/github/callback' => sub {
+	my $generate_state = sha256_hex($client_id.$client_secret.$state_salt);
 	my $state_received = params->{'state'};
-	if($state_received eq $state) { 
+	if($state_received eq $generate_state) { 
 		my $code                   = params->{'code'};
 		my $browser                = LWP::UserAgent->new;
 		my $resp                   = $browser->post($github_post_url,
