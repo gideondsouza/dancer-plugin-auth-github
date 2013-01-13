@@ -8,7 +8,7 @@ WriteMakefile(
     AUTHOR           => q{Gideon Israel Dsouza <gideon@cpan.org>},
     VERSION_FROM     => 'lib/Dancer/Plugin/Auth/Github.pm',
     ABSTRACT_FROM    => 'lib/Dancer/Plugin/Auth/Github.pm',
-    LICENSE          => 'Artistic_2_0',
+    LICENSE          => 'perl',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
     CONFIGURE_REQUIRES => {
