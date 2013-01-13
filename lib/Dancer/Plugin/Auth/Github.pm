@@ -53,7 +53,7 @@ register 'auth_github_init' => sub {
 #returns the url you need to redirect to to authenticate on github
 register 'auth_github_authenticate_url'  => sub {
 	my $generate_state = sha256_hex($client_id.$client_secret.$state_salt);
-	return "$github_redirect_url?&client_id=$client_id&scope=$scope&state=$state";
+	return "$github_redirect_url?&client_id=$client_id&scope=$scope&state=$generate_state";
 };
 #registers this as a callback url
 get '/auth/github/callback' => sub {
@@ -67,7 +67,7 @@ get '/auth/github/callback' => sub {
 		client_id                  => $client_id,
 		client_secret              => $client_secret, 
 		code                       => $code,
-		state                      => $state
+		state                      => $state_received
 		]);
 		die "error while fetching: ", $resp->status_line
 		unless $resp->is_success;
