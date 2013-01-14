@@ -105,9 +105,8 @@ sub parse_query_str {
 }
 register_plugin;
 
-__END__
 1; # End of Dancer::Plugin::Auth::Github
-
+__END__
 =head1 NAME
 
 Dancer::Plugin::Auth::Github - Authenticate with Github
