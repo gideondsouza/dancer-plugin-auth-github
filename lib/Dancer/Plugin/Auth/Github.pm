@@ -13,7 +13,7 @@ use LWP::UserAgent;
 use JSON qw(decode_json);
 
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my $client_id;
 my $client_secret;
