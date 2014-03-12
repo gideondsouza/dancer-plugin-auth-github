@@ -200,7 +200,7 @@ This plugin stores the authenticated user in a session with the name C<github_us
 
 You should be able to use any session backend, see
 L<Dancer::Session> for details about various Dancer session backends, or
-L<http://search.cpan.org/search?query=Dancer-Session|search the CPAN for new ones>.
+L<search the CPAN for new ones|http://search.cpan.org/search?query=Dancer-Session>.
 
 =back
 
